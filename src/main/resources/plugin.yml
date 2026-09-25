@@ -1,0 +1,29 @@
+name: Soar
+version: '${version}'
+main: dev.soar.SoarPlugin
+api-version: '1.21'
+authors: [Groovyy Roy]
+description: Flight that is paid for in time, made to share flight with Origins-Reborn
+softdepend:
+  - PlaceholderAPI
+  - Origins-Reborn
+
+commands:
+  tempfly:
+    description: Fly for as long as you have time
+    aliases: [tf, tfly, soar]
+    usage: /<command> [toggle|balance|pay <player> <time>]
+
+permissions:
+  tempfly.use:
+    description: Toggle TempFly and read your balance
+    default: true
+  tempfly.pay:
+    description: Send TempFly time to other players
+    default: true
+  tempfly.infinite:
+    description: Fly without using up time
+    default: false
+  tempfly.admin:
+    description: Give, take, set and reset time, see the balance of others, reload
+    default: op

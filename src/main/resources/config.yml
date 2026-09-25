@@ -1,0 +1,27 @@
+# Soar: TempFly. Players spend seconds of flight time while they fly. Reload with /tempfly reload.
+# The texts are in messages.yml.
+
+# Seconds a player starts with the first time they join
+default-time: 60
+
+# Worlds where TempFly cannot be used (it switches off when a player enters one)
+blocked-worlds:
+  - afk
+  - arena
+  - spawn
+
+# Warn the player with a title and a sound when this many seconds are left
+warn-at: [60, 30, 15, 10, 5, 4, 3, 2, 1]
+warn-sound: block.note_block.pling
+
+# Show the time that is left above the hotbar while flying. Origins-Reborn also writes there for its cooldown
+# icons, turn this off if the two get in each other's way.
+actionbar: true
+
+# Sharing flight with Origins-Reborn. While TempFly is on the player has the scoreboard tag flight-tag, and Origins
+# leaves their flight alone (the double tap starts TempFly flight and not elytra gliding). This has to be the same as
+# misc-settings.external-flight-tag in Origins-Reborn's config.yml, whose default is tempfly_active.
+flight-tag: tempfly_active
+# The tag Origins puts on players with elytra flight, so Soar never takes away flight that belongs to Origins.
+# The same as misc-settings.origins-flight-tag in Origins-Reborn's config.yml.
+origins-tag: origins_flight

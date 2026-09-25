@@ -1,0 +1,52 @@
+# Messages use MiniMessage (<red>text</red>) and also old codes like &7 and &#ff8800.
+# <placeholders> are filled in. Leave a message empty to turn it off.
+
+prefix: "<#99D6FF><bold>TEMPFLY </bold><#B6C1C8>⏵ <white>"
+
+enabled: "TempFly has been <#95FF7E>enabled<white>."
+disabled: "TempFly has been <#FF4361>disabled<white>."
+expired: "Your TempFly time has expired."
+blocked-world: "You cannot use TempFly in this world."
+no-time: "You do not have any TempFly time left."
+balance: "Your balance: <#99D6FF><time>"
+balance-infinite: "Your balance: <#99D6FF>∞ (Unlimited) <gray>[<time>]"
+balance-other: "<#99D6FF><player> <white>has <#99D6FF><time>"
+# how unlimited time is written in the action bar and placeholders
+infinite: "∞"
+
+pay-sent: "You sent <#99D6FF><time> <white>of TempFly to <#99D6FF><player>."
+pay-received: "You received <#99D6FF><time> <white>of TempFly from <#99D6FF><player>."
+pay-self: "You cannot send TempFly time to yourself."
+not-enough: "You do not have enough TempFly time."
+received: "You received <#99D6FF><time> <white>of TempFly time."
+updated: "Updated TempFly time for <#99D6FF><player><white>, they now have <#99D6FF><time><white>."
+
+no-permission: "<#FF4361>You do not have permission."
+players-only: "<#FF4361>Only players can do that."
+player-not-found: "<#FF4361><player> is not online."
+invalid-time: "<#FF4361>That is not a time. Try 30s, 5m, 1h or 1d."
+usage-pay: "<#FF4361>Usage: /tempfly pay <player> <time>"
+usage-admin: "<#FF4361>Usage: /tempfly <give|take|set|reset> <player> <time>"
+reloaded: "Reloaded."
+
+# Shown while flying, <time> is what is left
+actionbar: "<#99D6FF><bold>TEMPFLY </bold><#B6C1C8>⏵ <white>Remaining: <#99D6FF><time>"
+
+# Shown at the times in warn-at
+warn-title: "<#99D6FF><bold>TEMPFLY"
+warn-subtitle: "<gray>Expires in <white><time>"
+
+help:
+  - " "
+  - "<#99D6FF><bold>TEMPFLY </bold><#B6C1C8>⏵ <white>Help"
+  - " "
+  - "<white>/tempfly <#B6C1C8>- <#99D6FF>Toggle TempFly"
+  - "<white>/tempfly balance <#B6C1C8>- <#99D6FF>View your TempFly balance"
+  - "<white>/tempfly pay <player> <time> <#B6C1C8>- <#99D6FF>Send TempFly time"
+  - " "
+help-admin:
+  - "<white>/tempfly give|take|set <player> <time> <#B6C1C8>- <#99D6FF>Change time"
+  - "<white>/tempfly reset <player> <#B6C1C8>- <#99D6FF>Back to the default"
+  - "<white>/tempfly balance <player> <#B6C1C8>- <#99D6FF>View someone's balance"
+  - "<white>/tempfly reload"
+  - " "
