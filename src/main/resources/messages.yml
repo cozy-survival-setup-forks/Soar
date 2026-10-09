@@ -28,6 +28,7 @@ invalid-time: "<#FF4361>That is not a time. Try 30s, 5m, 1h or 1d."
 usage-pay: "<#FF4361>Usage: /tempfly pay <player> <time>"
 usage-admin: "<#FF4361>Usage: /tempfly <give|take|set|reset> <player> <time>"
 reloaded: "Reloaded."
+reload-failed: "<#FF4361>A file has a mistake in it, nothing was reloaded. The console says which one."
 
 # Shown while flying, <time> is what is left
 actionbar: "<#99D6FF><bold>TEMPFLY </bold><#B6C1C8>⏵ <white>Remaining: <#99D6FF><time>"

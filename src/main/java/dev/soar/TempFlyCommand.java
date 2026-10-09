@@ -43,8 +43,7 @@ public final class TempFlyCommand implements CommandExecutor, TabCompleter {
             }
             case "reload" -> {
                 if (admin(sender)) {
-                    plugin.reload();
-                    messages.send(sender, "reloaded");
+                    messages.send(sender, plugin.reload() ? "reloaded" : "reload-failed");
                 }
             }
             default -> help(sender);

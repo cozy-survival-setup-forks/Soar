@@ -22,8 +22,12 @@ public final class SoarPlugin extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         messages = new Messages(this);
-        messages.load();
-        settings = Settings.from(getConfig());
+        if (!messages.load() || (settings = readSettings()) == null) {
+            getLogger().severe("Soar cannot start with a broken file, so it is switching itself off. Fix the file named above, "
+                    + "or delete it to get the default one, then restart.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
         flight = new Flight(this);
 
         TempFlyCommand command = new TempFlyCommand(this);
@@ -51,10 +55,21 @@ public final class SoarPlugin extends JavaPlugin {
         if (flight != null) flight.shutdown();
     }
 
-    public void reload() {
-        reloadConfig();
-        messages.load();
-        settings = Settings.from(getConfig());
+    /** @return false if a file is broken, in which case what was loaded before stays in use */
+    public boolean reload() {
+        Settings fresh = readSettings();
+        if (fresh == null || !messages.load()) return false;
+        settings = fresh;
+        return true;
+    }
+
+    private Settings readSettings() {
+        try {
+            return Settings.from(Settings.strict(new java.io.File(getDataFolder(), "config.yml")));
+        } catch (java.io.IOException | org.bukkit.configuration.InvalidConfigurationException e) {
+            getLogger().severe("config.yml could not be read: " + e.getMessage());
+            return null;
+        }
     }
 
     public Settings settings() {

@@ -2,7 +2,12 @@ package dev.soar;
 
 import net.kyori.adventure.key.InvalidKeyException;
 import net.kyori.adventure.key.Key;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.io.IOException;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -13,6 +18,13 @@ public record Settings(long defaultTime, Set<String> blockedWorlds, Set<Long> wa
                        boolean actionBar, String flightTag, String originsTag) {
 
     private static final Key DEFAULT_SOUND = Key.key("block.note_block.pling");
+
+    /** Reads a yaml file and fails with the reason, where the Bukkit loaders only log it and carry on with nothing. */
+    public static YamlConfiguration strict(File file) throws IOException, InvalidConfigurationException {
+        YamlConfiguration config = new YamlConfiguration();
+        config.load(file);
+        return config;
+    }
 
     public static Settings from(FileConfiguration config) {
         Set<String> worlds = new HashSet<>();
