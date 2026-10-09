@@ -43,6 +43,7 @@ public final class SoarPlugin extends JavaPlugin {
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) new Expansion().register();
 
+        Metrics.start(this);
         Banner.print(this, "Thanks for flying with us.");
 
         // After a reload the players are already online

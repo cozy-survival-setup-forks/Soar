@@ -39,6 +39,12 @@ The two tag names are `flight-tag` and `origins-tag` in Soar's config.yml. They 
 
 `config.yml` for the numbers and tags, `messages.yml` for every text (MiniMessage and `&` codes, an empty text is skipped).
 
+## Telemetry
+
+On startup Soar sends a small anonymous beacon (plugin name/version, server software/version, online/max player
+counts, and a random ID with no player data) so we know which versions are in use. Turn it off with
+`metrics.enabled: false` in `config.yml`.
+
 ## License
 
 See `LICENSE`: free to run on your own servers, not for redistribution or resale.

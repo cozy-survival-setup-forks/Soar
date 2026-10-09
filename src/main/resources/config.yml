@@ -36,3 +36,9 @@ flight-tag: tempfly_active
 # The tag Origins puts on players with elytra flight, so Soar never takes away flight that belongs to Origins.
 # The same as misc-settings.origins-flight-tag in Origins-Reborn's config.yml.
 origins-tag: origins_flight
+
+# Anonymous usage beacon: plugin name/version, server software/version and online/max player
+# counts, nothing else. Set to false to turn it off.
+metrics:
+  enabled: true
+  interval-minutes: 45
