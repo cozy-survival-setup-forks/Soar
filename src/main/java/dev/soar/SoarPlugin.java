@@ -43,6 +43,8 @@ public final class SoarPlugin extends JavaPlugin {
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) new Expansion().register();
 
+        Banner.print(this, "Thanks for flying with us.");
+
         // After a reload the players are already online
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!flight.hasStoredTime(player)) flight.setTime(player, settings.defaultTime());
