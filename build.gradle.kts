@@ -46,5 +46,8 @@ tasks {
 
     jar {
         archiveFileName = "Soar-${project.version}.jar"
+        manifest {
+            attributes("Implementation-Vendor" to "Groovified / Blockie Studios")
+        }
     }
 }

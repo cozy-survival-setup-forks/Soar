@@ -2,7 +2,8 @@ name: Soar
 version: '${version}'
 main: dev.soar.SoarPlugin
 api-version: '1.21'
-authors: [Groovyy Roy]
+authors: [Groovified]
+website: https://discord.gg/blockie
 description: Flight that is paid for in time, made to share flight with Origins-Reborn
 softdepend:
   - PlaceholderAPI

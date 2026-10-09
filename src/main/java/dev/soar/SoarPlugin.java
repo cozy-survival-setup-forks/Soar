@@ -94,7 +94,7 @@ public final class SoarPlugin extends JavaPlugin {
 
         @Override
         public @NotNull String getAuthor() {
-            return "Groovyy Roy";
+            return "Groovified";
         }
 
         @Override

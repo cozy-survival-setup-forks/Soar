@@ -37,4 +37,8 @@ The two tag names are `flight-tag` and `origins-tag` in Soar's config.yml. They 
 
 ## Files
 
-`config.yml` for the numbers and tags, `messages.yml` for every text (MiniMessage and `&` codes, an empty text is skipped). MIT license.
+`config.yml` for the numbers and tags, `messages.yml` for every text (MiniMessage and `&` codes, an empty text is skipped).
+
+## License
+
+See `LICENSE`: free to run on your own servers, not for redistribution or resale.
