@@ -45,6 +45,11 @@ public final class SoarPlugin extends JavaPlugin {
 
         Metrics.start(this);
         Banner.print(this, "Thanks for flying with us.");
+        boolean placeholders = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+        getLogger().info("Ready: " + settings.defaultTime() + "s of TempFly for new players, " + settings.blockedWorlds().size()
+                + " blocked world(s), flight speed " + (settings.speedEnabled() ? "levels 1-" + settings.speedMaxLevel() : "off")
+                + ", PlaceholderAPI " + (placeholders ? "hooked" : "not installed") + ".");
+        checkOrigins();
 
         // After a reload the players are already online
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -58,11 +63,29 @@ public final class SoarPlugin extends JavaPlugin {
         if (flight != null) flight.shutdown();
     }
 
+    /** Both plugins have to use the same tag names, or the double tap goes to the wrong one. */
+    private void checkOrigins() {
+        org.bukkit.plugin.Plugin origins = Bukkit.getPluginManager().getPlugin("Origins-Reborn");
+        if (origins == null) return;
+        getLogger().info("Origins-Reborn found, sharing flight through the tag '" + settings.flightTag() + "'.");
+        String theirs = origins.getConfig().getString("misc-settings.external-flight-tag");
+        if (theirs != null && !theirs.equals(settings.flightTag())) {
+            getLogger().warning("flight-tag is '" + settings.flightTag() + "' here but misc-settings.external-flight-tag is '" + theirs
+                    + "' in Origins-Reborn. Make them the same, or the double tap will glide instead of fly.");
+        }
+        String elytra = origins.getConfig().getString("misc-settings.origins-flight-tag");
+        if (elytra != null && !elytra.equals(settings.originsTag())) {
+            getLogger().warning("origins-tag is '" + settings.originsTag() + "' here but misc-settings.origins-flight-tag is '" + elytra
+                    + "' in Origins-Reborn. Make them the same.");
+        }
+    }
+
     /** @return false if a file is broken, in which case what was loaded before stays in use */
     public boolean reload() {
         Settings fresh = readSettings();
         if (fresh == null || !messages.load()) return false;
         settings = fresh;
+        checkOrigins();
         return true;
     }
 
