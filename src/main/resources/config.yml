@@ -18,6 +18,17 @@ warn-sound: block.note_block.pling
 # icons, turn this off if the two get in each other's way.
 actionbar: true
 
+# Flight speed. Players pick a level with /tempfly speed <level>. Level 1 is the normal speed and every level adds
+# step to it, so the defaults give 10 levels, the fastest being the top speed Minecraft allows.
+# A player can use level N with the permission tempfly.speed.N (or tempfly.speed.* for every level). Everyone can use
+# level 1. tempfly.speed lets them use the command, and everyone has it.
+speed:
+  enabled: true
+  step: 0.1
+  max-level: 10
+  # The level a player flies at until they choose another one
+  default-level: 1
+
 # Sharing flight with Origins-Reborn. While TempFly is on the player has the scoreboard tag flight-tag, and Origins
 # leaves their flight alone (the double tap starts TempFly flight and not elytra gliding). This has to be the same as
 # misc-settings.external-flight-tag in Origins-Reborn's config.yml, whose default is tempfly_active.

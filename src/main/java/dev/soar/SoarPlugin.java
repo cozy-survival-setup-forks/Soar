@@ -84,7 +84,7 @@ public final class SoarPlugin extends JavaPlugin {
         return flight;
     }
 
-    /** %tempfly_duration_raw%, %tempfly_duration_formatted% and %tempfly_active%. */
+    /** %tempfly_duration_raw%, %tempfly_duration_formatted%, %tempfly_active% and %tempfly_speed%. */
     private final class Expansion extends PlaceholderExpansion {
 
         @Override
@@ -114,6 +114,7 @@ public final class SoarPlugin extends JavaPlugin {
                 case "duration_raw" -> flight.infinite(player) ? "∞" : String.valueOf(flight.time(player));
                 case "duration_formatted" -> flight.infinite(player) ? "∞" : TimeFormat.format(flight.time(player));
                 case "active" -> String.valueOf(flight.active(player));
+                case "speed" -> String.valueOf(flight.level(player));
                 default -> null;
             };
         }

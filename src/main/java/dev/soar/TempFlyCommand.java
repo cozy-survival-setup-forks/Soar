@@ -18,7 +18,7 @@ import java.util.Locale;
  */
 public final class TempFlyCommand implements CommandExecutor, TabCompleter {
 
-    private static final List<String> PLAYER_SUBS = List.of("toggle", "balance", "pay");
+    private static final List<String> PLAYER_SUBS = List.of("toggle", "balance", "pay", "speed");
     private static final List<String> ADMIN_SUBS = List.of("give", "take", "set", "reset", "reload");
 
     private final SoarPlugin plugin;
@@ -38,6 +38,7 @@ public final class TempFlyCommand implements CommandExecutor, TabCompleter {
             case "toggle" -> toggle(sender);
             case "balance", "bal", "time" -> balance(sender, rest);
             case "pay" -> pay(sender, rest);
+            case "speed" -> speed(sender, rest);
             case "give", "take", "set", "reset" -> {
                 if (admin(sender)) change(sender, sub, rest);
             }
@@ -97,6 +98,41 @@ public final class TempFlyCommand implements CommandExecutor, TabCompleter {
             messages.send(player, "balance-infinite", "time", TimeFormat.format(flight.time(player)));
         } else {
             messages.send(player, "balance", "time", TimeFormat.format(flight.time(player)));
+        }
+    }
+
+    private void speed(CommandSender sender, String[] args) {
+        Player player = player(sender);
+        if (player == null) return;
+        Messages messages = plugin.messages();
+        Flight flight = plugin.flight();
+
+        if (!plugin.settings().speedEnabled()) {
+            messages.send(player, "speed-disabled");
+            return;
+        }
+        if (!player.hasPermission("tempfly.speed")) {
+            messages.send(player, "no-permission");
+            return;
+        }
+        int max = flight.maxLevel(player);
+        if (args.length < 2) {
+            messages.send(player, "speed-current", "level", String.valueOf(flight.level(player)), "max", String.valueOf(max));
+            return;
+        }
+        int level;
+        try {
+            level = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            level = 0;
+        }
+        if (level < 1 || level > plugin.settings().speedMaxLevel()) {
+            messages.send(player, "speed-invalid", "max", String.valueOf(max));
+        } else if (level > max) {
+            messages.send(player, "speed-denied", "level", String.valueOf(level), "max", String.valueOf(max));
+        } else {
+            flight.setLevel(player, level);
+            messages.send(player, "speed-set", "level", String.valueOf(level));
         }
     }
 
@@ -218,6 +254,11 @@ public final class TempFlyCommand implements CommandExecutor, TabCompleter {
             switch (rest[0].toLowerCase(Locale.ROOT)) {
                 case "pay" -> Bukkit.getOnlinePlayers().stream()
                         .filter(p -> !p.equals(sender)).forEach(p -> options.add(p.getName()));
+                case "speed" -> {
+                    if (sender instanceof Player player && plugin.settings().speedEnabled()) {
+                        for (int level = 1; level <= plugin.flight().maxLevel(player); level++) options.add(String.valueOf(level));
+                    }
+                }
                 case "give", "take", "set", "reset", "balance" -> {
                     if (admin) Bukkit.getOnlinePlayers().forEach(p -> options.add(p.getName()));
                 }

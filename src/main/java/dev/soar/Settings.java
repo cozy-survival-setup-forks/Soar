@@ -15,7 +15,8 @@ import java.util.Set;
 
 /** The values of config.yml. */
 public record Settings(long defaultTime, Set<String> blockedWorlds, Set<Long> warnAt, Key warnSound,
-                       boolean actionBar, String flightTag, String originsTag) {
+                       boolean actionBar, String flightTag, String originsTag,
+                       boolean speedEnabled, double speedStep, int speedMaxLevel, int speedDefaultLevel) {
 
     private static final Key DEFAULT_SOUND = Key.key("block.note_block.pling");
 
@@ -40,6 +41,11 @@ public record Settings(long defaultTime, Set<String> blockedWorlds, Set<Long> wa
             sound = DEFAULT_SOUND;
         }
 
+        double step = Math.max(0.01, Math.min(1.0, config.getDouble("speed.step", 0.1)));
+        // The fastest level may not go past what Minecraft allows
+        int top = Math.max(1, Math.min(Math.min(Speeds.LIMIT, (int) Math.floor(1.0 / step + 1e-9)), config.getInt("speed.max-level", 10)));
+        int fallback = Math.max(1, Math.min(top, config.getInt("speed.default-level", 1)));
+
         return new Settings(
                 Math.max(0, config.getLong("default-time", 60)),
                 worlds,
@@ -47,6 +53,10 @@ public record Settings(long defaultTime, Set<String> blockedWorlds, Set<Long> wa
                 sound,
                 config.getBoolean("actionbar", true),
                 config.getString("flight-tag", "tempfly_active"),
-                config.getString("origins-tag", "origins_flight"));
+                config.getString("origins-tag", "origins_flight"),
+                config.getBoolean("speed.enabled", true),
+                step,
+                top,
+                fallback);
     }
 }

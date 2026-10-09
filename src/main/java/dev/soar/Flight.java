@@ -33,6 +33,7 @@ public final class Flight {
     private final SoarPlugin plugin;
     private final NamespacedKey timeKey;
     private final NamespacedKey enabledKey;
+    private final NamespacedKey speedKey;
 
     private final Set<UUID> active = new HashSet<>();
     // players whose flight TempFly switched on, so only TempFly switches it off again
@@ -45,6 +46,40 @@ public final class Flight {
         this.plugin = plugin;
         this.timeKey = new NamespacedKey(plugin, "duration");
         this.enabledKey = new NamespacedKey(plugin, "enabled");
+        this.speedKey = new NamespacedKey(plugin, "speed");
+    }
+
+    // ---- speed ----
+
+    /** The highest speed level the permissions of the player allow. */
+    public int maxLevel(Player player) {
+        return Speeds.allowed(plugin.settings().speedMaxLevel(), level -> player.hasPermission("tempfly.speed." + level));
+    }
+
+    /** The level the player flies at: the one they chose, never above what their permissions allow now. */
+    public int level(Player player) {
+        Integer stored = player.getPersistentDataContainer().get(speedKey, PersistentDataType.INTEGER);
+        int chosen = stored != null ? stored : plugin.settings().speedDefaultLevel();
+        return Math.max(1, Math.min(chosen, maxLevel(player)));
+    }
+
+    public void setLevel(Player player, int level) {
+        player.getPersistentDataContainer().set(speedKey, PersistentDataType.INTEGER, level);
+        if (active(player)) applySpeed(player);
+    }
+
+    private float targetSpeed(Player player) {
+        Settings settings = plugin.settings();
+        return settings.speedEnabled() ? Speeds.speed(level(player), settings.speedStep()) : Speeds.NORMAL;
+    }
+
+    private void applySpeed(Player player) {
+        player.setFlySpeed(targetSpeed(player));
+    }
+
+    /** Back to the normal speed, so a fast level does not stay with the player after TempFly. */
+    private void resetSpeed(Player player) {
+        if (plugin.settings().speedEnabled()) player.setFlySpeed(Speeds.NORMAL);
     }
 
     // ---- time ----
@@ -132,7 +167,7 @@ public final class Flight {
         setEnabled(player, true);
         player.addScoreboardTag(plugin.settings().flightTag());
         player.setAllowFlight(true);
-        player.setFlySpeed(0.1f);
+        applySpeed(player);
         player.setFallDistance(0f);
         landing.remove(id);
         if (player.isGliding()) player.setGliding(false);
@@ -156,6 +191,7 @@ public final class Flight {
         player.removeScoreboardTag(plugin.settings().flightTag());
 
         if (wasActive) {
+            resetSpeed(player);
             boolean originsFlight = player.getScoreboardTags().contains(plugin.settings().originsTag());
             if (ours && !originsFlight && survival(player)) {
                 player.setAllowFlight(false);
@@ -175,7 +211,7 @@ public final class Flight {
     /** Called when a player leaves: only what was remembered for this session goes, the saved state stays. */
     public void forget(Player player) {
         UUID id = player.getUniqueId();
-        active.remove(id);
+        if (active.remove(id)) resetSpeed(player);
         granted.remove(id);
         warned.remove(id);
         landing.remove(id);
@@ -186,6 +222,7 @@ public final class Flight {
     public void shutdown() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             UUID id = player.getUniqueId();
+            if (active.contains(id)) resetSpeed(player);
             if (active.contains(id) && granted.contains(id) && survival(player)) {
                 player.setAllowFlight(false);
             }
@@ -258,6 +295,10 @@ public final class Flight {
             }
             if (!blocked(player) && survival(player) && hasTime(player) && !player.getAllowFlight()) {
                 player.setAllowFlight(true);
+            }
+            // Another plugin or a lost permission changed the speed
+            if (plugin.settings().speedEnabled() && Math.abs(player.getFlySpeed() - targetSpeed(player)) > 0.001f) {
+                applySpeed(player);
             }
         }
     }

@@ -12,7 +12,7 @@ commands:
   tempfly:
     description: Fly for as long as you have time
     aliases: [tf, tfly, soar]
-    usage: /<command> [toggle|balance|pay <player> <time>]
+    usage: /<command> [toggle|balance|pay <player> <time>|speed [level]]
 
 permissions:
   tempfly.use:
@@ -27,3 +27,91 @@ permissions:
   tempfly.admin:
     description: Give, take, set and reset time, see the balance of others, reload
     default: op
+  tempfly.speed:
+    description: Choose a flight speed level with /tempfly speed
+    default: true
+  tempfly.speed.*:
+    description: Every flight speed level
+    default: op
+    children:
+      tempfly.speed: true
+      tempfly.speed.1: true
+      tempfly.speed.2: true
+      tempfly.speed.3: true
+      tempfly.speed.4: true
+      tempfly.speed.5: true
+      tempfly.speed.6: true
+      tempfly.speed.7: true
+      tempfly.speed.8: true
+      tempfly.speed.9: true
+      tempfly.speed.10: true
+      tempfly.speed.11: true
+      tempfly.speed.12: true
+      tempfly.speed.13: true
+      tempfly.speed.14: true
+      tempfly.speed.15: true
+      tempfly.speed.16: true
+      tempfly.speed.17: true
+      tempfly.speed.18: true
+      tempfly.speed.19: true
+      tempfly.speed.20: true
+  tempfly.speed.1:
+    description: Fly at speed level 1
+    default: true
+  tempfly.speed.2:
+    description: Fly at speed level 2 or lower
+    default: false
+  tempfly.speed.3:
+    description: Fly at speed level 3 or lower
+    default: false
+  tempfly.speed.4:
+    description: Fly at speed level 4 or lower
+    default: false
+  tempfly.speed.5:
+    description: Fly at speed level 5 or lower
+    default: false
+  tempfly.speed.6:
+    description: Fly at speed level 6 or lower
+    default: false
+  tempfly.speed.7:
+    description: Fly at speed level 7 or lower
+    default: false
+  tempfly.speed.8:
+    description: Fly at speed level 8 or lower
+    default: false
+  tempfly.speed.9:
+    description: Fly at speed level 9 or lower
+    default: false
+  tempfly.speed.10:
+    description: Fly at speed level 10 or lower
+    default: false
+  tempfly.speed.11:
+    description: Fly at speed level 11 or lower
+    default: false
+  tempfly.speed.12:
+    description: Fly at speed level 12 or lower
+    default: false
+  tempfly.speed.13:
+    description: Fly at speed level 13 or lower
+    default: false
+  tempfly.speed.14:
+    description: Fly at speed level 14 or lower
+    default: false
+  tempfly.speed.15:
+    description: Fly at speed level 15 or lower
+    default: false
+  tempfly.speed.16:
+    description: Fly at speed level 16 or lower
+    default: false
+  tempfly.speed.17:
+    description: Fly at speed level 17 or lower
+    default: false
+  tempfly.speed.18:
+    description: Fly at speed level 18 or lower
+    default: false
+  tempfly.speed.19:
+    description: Fly at speed level 19 or lower
+    default: false
+  tempfly.speed.20:
+    description: Fly at speed level 20 or lower
+    default: false
