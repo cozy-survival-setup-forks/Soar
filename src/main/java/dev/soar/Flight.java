@@ -63,7 +63,7 @@ public final class Flight {
     }
 
     public void addTime(Player player, long seconds) {
-        setTime(player, time(player) + seconds);
+        setTime(player, TimeFormat.add(time(player), seconds));
     }
 
     public void takeTime(Player player, long seconds) {
@@ -114,7 +114,7 @@ public final class Flight {
     /** Brings back the state of a player after a join or a reload. */
     public void restore(Player player) {
         if (!enabled(player)) return;
-        if (blocked(player) || !hasTime(player)) {
+        if (blocked(player) || !hasTime(player) || !player.hasPermission("tempfly.use")) {
             disable(player, null);
             return;
         }
@@ -215,6 +215,10 @@ public final class Flight {
             }
             if (blocked(player)) {
                 disable(player, "blocked-world");
+                continue;
+            }
+            if (!player.hasPermission("tempfly.use")) {
+                disable(player, "no-permission");
                 continue;
             }
             if (!survival(player)) continue;

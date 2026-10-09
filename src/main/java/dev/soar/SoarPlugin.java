@@ -95,7 +95,7 @@ public final class SoarPlugin extends JavaPlugin {
         @Override
         public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
             if (player == null) return "";
-            return switch (params.toLowerCase()) {
+            return switch (params.toLowerCase(java.util.Locale.ROOT)) {
                 case "duration_raw" -> flight.infinite(player) ? "∞" : String.valueOf(flight.time(player));
                 case "duration_formatted" -> flight.infinite(player) ? "∞" : TimeFormat.format(flight.time(player));
                 case "active" -> String.valueOf(flight.active(player));

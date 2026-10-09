@@ -38,6 +38,14 @@ class TimeFormatTest {
     }
 
     @Test
+    void addingTimeNeverWrapsAround() {
+        assertEquals(15, TimeFormat.add(10, 5));
+        assertEquals(Long.MAX_VALUE, TimeFormat.add(Long.MAX_VALUE, 5));
+        assertEquals(Long.MAX_VALUE, TimeFormat.add(5, Long.MAX_VALUE));
+        assertEquals(0, TimeFormat.add(5, -5));
+    }
+
+    @Test
     void oldColourCodesBecomeTags() {
         assertEquals("<#ff8800>Hi", Messages.convertLegacy("&#ff8800Hi"));
         assertEquals("<gray>a<red>b<bold>c<reset>", Messages.convertLegacy("&7a&cb&lc&r"));

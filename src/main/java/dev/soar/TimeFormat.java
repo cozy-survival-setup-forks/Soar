@@ -11,6 +11,12 @@ public final class TimeFormat {
     private TimeFormat() {
     }
 
+    /** Adds two amounts of time and stops at the largest number instead of wrapping around to a negative one. */
+    public static long add(long a, long b) {
+        long sum = a + b;
+        return sum < 0 && a >= 0 && b >= 0 ? Long.MAX_VALUE : sum;
+    }
+
     public static String format(long totalSeconds) {
         long total = Math.max(0, totalSeconds);
         long days = total / 86400;
