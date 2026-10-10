@@ -19,7 +19,7 @@ import java.util.Locale;
 public final class TempFlyCommand implements CommandExecutor, TabCompleter {
 
     private static final List<String> PLAYER_SUBS = List.of("toggle", "balance", "pay", "speed");
-    private static final List<String> ADMIN_SUBS = List.of("give", "take", "set", "reset", "reload");
+    private static final List<String> ADMIN_SUBS = List.of("give", "take", "set", "reset", "reload", "doctor", "backup");
 
     private final SoarPlugin plugin;
 
@@ -45,6 +45,17 @@ public final class TempFlyCommand implements CommandExecutor, TabCompleter {
             case "reload" -> {
                 if (admin(sender)) {
                     messages.send(sender, plugin.reload() ? "reloaded" : "reload-failed");
+                }
+            }
+            case "doctor" -> {
+                if (admin(sender)) plugin.doctor().forEach(sender::sendPlainMessage);
+            }
+            case "backup" -> {
+                if (admin(sender)) {
+                    if (rest.length < 2 || !rest[1].equalsIgnoreCase("now"))
+                        sender.sendPlainMessage("Use /tempfly backup now");
+                    else
+                        sender.sendPlainMessage(plugin.backupNow() ? "Backup made and checked." : "The backup FAILED, see the console.");
                 }
             }
             default -> help(sender);

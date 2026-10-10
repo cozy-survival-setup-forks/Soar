@@ -53,11 +53,20 @@ The two tag names are `flight-tag` and `origins-tag` in Soar's config.yml. They 
 
 `config.yml` for the numbers and tags, `messages.yml` for every text (MiniMessage and `&` codes, an empty text is skipped).
 
+## Keeping your files safe
+
+- `config.yml` and `messages.yml` start with a `config-version` / `lang-version` number. After an update, new settings are added to your files with their comments, and nothing you changed is touched. The old file is kept next to it as `<name>.<date>.bak` (the newest 5). A setting is only removed when the changelog says so.
+- A value with a mistake (a negative time, an item that does not exist, text where a number belongs) is named in the console by file and key. On a reload, the settings in use stay as they were.
+- Files are written to a temporary file and moved into place, with the previous version kept as `.bak`. A file that cannot be read is restored from its `.bak`, and the unreadable one is kept as `.broken-<time>`.
+- Each player's time is stored on the player by the server itself, together with the rest of their data, so Soar has no balance file of its own that could be damaged or lose a payment.
+- A file or database that was made by a newer version of the plugin is left alone and a warning is logged.
+- `/tempfly doctor` shows the health of the files, versions, last backup and recent save failures (no player data). `/tempfly backup now` makes a checked backup right away. Both need the admin permission.
+
 ## Telemetry
 
 On startup Soar sends a small anonymous beacon (plugin name/version, server software/version, online/max player
 counts, and a random ID with no player data) so we know which versions are in use. Turn it off with
-`metrics.enabled: false` in `config.yml`.
+`metrics.enabled: false` in `config.yml`. The random ID is kept as `server-id` in `data.yml` (older versions kept it in a `.server-id` file, which is moved over unchanged). The address and the interval are fixed in the plugin and are not settings.
 
 ## License
 
